@@ -54,7 +54,7 @@ npm run dev
 
 ## 🔗 Link do Projeto:
 
-https://#
+https://food-explorer-gk.netlify.app/
 
 ## 📱 Telas
 
