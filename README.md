@@ -23,6 +23,21 @@ Os usuários precisam se cadastrar para utilizar os serviços disponibilizados n
 - `react-router-dom`
 - `swiper`
 
+
+## 📲 Logins de Acesso:
+
+- `Conta Admin:`
+```
+admin@rocketseat.com.br
+senha1234
+```
+
+- `Conta Usuário:`
+```
+cliente@rocketseat.com.br
+senha1234
+```
+
 ## ⚙️ Como rodar o Projeto Localmente:
 
 -Para instalar todas as bibliotecas usadas no projeto rode o comando:
