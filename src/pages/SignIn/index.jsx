@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '../../components/Button';
 import { Container, ErrorHelperText, Form, FormContainer, Input, InputContainer, LogoContainer } from '../SignUp/styles';
 import { useAuth } from '../../hooks/auth';
+import Logo from '../../assets/Logo-Food-Explorer.png';
 
 export function SignIn() {
   const { signIn } = useAuth();
@@ -20,7 +21,7 @@ export function SignIn() {
   return (
     <Container>
       <LogoContainer>
-        <img src="/src/assets/Logo-Food-Explorer.png" alt="Ícone Food Explorer" />
+        <img src={Logo} alt="Ícone Food Explorer" />
         <h1>food explorer</h1>
       </LogoContainer>
 
