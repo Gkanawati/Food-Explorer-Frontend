@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from '../../components/Button';
@@ -8,14 +9,24 @@ import Logo from '../../assets/Logo-Food-Explorer.png';
 export function SignIn() {
   const { signIn } = useAuth();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
 
-  function handleSignIn(data) {
-    signIn(data);
+  async function handleSignIn(data) {
+    try {
+      setIsLoading(true);
+      await signIn(data);
+    } catch (error) {
+      console.error('error login: ', error);
+      alert('Erro ao fazer login');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -55,7 +66,7 @@ export function SignIn() {
             {errors.password && <ErrorHelperText>{errors.password.message}</ErrorHelperText>}
           </InputContainer>
 
-          <Button text='Entrar' type='submit' />
+          <Button text='Entrar' type='submit' loading={isLoading} />
 
           <Link to="/register">Criar conta</Link>
         </Form>

@@ -30,6 +30,7 @@ export function DishForm() {
   const [tagLink, setTagLink] = useState("");
   const [imageUrl, setImageUrl] = useState(isEditAction ? null : 'https://via.placeholder.com/150');
   const [imageFile, setImageFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -71,6 +72,7 @@ export function DishForm() {
     };
 
     try {
+      setIsSubmitting(true);
       let dishId = null;
       if (isEditAction) {
         await api.put(`/dishes/${params.id}`, formattedFormData);
@@ -93,6 +95,8 @@ export function DishForm() {
         alert(error.response.data.error);
       }
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -242,6 +246,7 @@ export function DishForm() {
           <Button
             text="Salvar Alterações"
             onClick={handleSaveDish}
+            loading={isSubmitting}
           />
         </Row>
       </Content>

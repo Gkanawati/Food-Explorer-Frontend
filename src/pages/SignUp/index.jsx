@@ -4,8 +4,10 @@ import { Container, ErrorHelperText, Form, FormContainer, Input, InputContainer,
 import { useForm } from 'react-hook-form';
 import { api } from '../../hooks/api';
 import Logo from '../../assets/Logo-Food-Explorer.png';
+import { useState } from 'react';
 
 export function SignUp() {
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -16,30 +18,38 @@ export function SignUp() {
 
   const navigate = useNavigate();
 
-  function handleSignUp(data) {
+  async function handleSignUp(data) {
     if (!data.name || !data.email || !data.password) {
       alert('Preencha todos os campos');
       return;
     }
 
-    api.post('/users', data)
-      .then(response => {
-        alert('Usuário cadastrado com sucesso!');
-        navigate("/");
-      })
-      .catch(error => {
-        if (error.response) {
-          alert(error.response.data.message);
-          if (error.response.data.message === "Este email já esta em uso.") {
-            setError('email', {
-              type: 'manual',
-              message: 'Este email já está em uso'
-            });
+    try {
+      setIsLoading(true);
+      await api.post('/users', data)
+        .then(response => {
+          alert('Usuário cadastrado com sucesso!');
+          navigate("/");
+        })
+        .catch(error => {
+          if (error.response) {
+            alert(error.response.data.message);
+            if (error.response.data.message === "Este email já esta em uso.") {
+              setError('email', {
+                type: 'manual',
+                message: 'Este email já está em uso'
+              });
+            }
+          } else {
+            alert('Erro ao cadastrar usuário');
           }
-        } else {
-          alert('Erro ao cadastrar usuário');
-        }
-      });
+        });
+    } catch (error) {
+      console.error('error signup: ', error);
+      alert('Erro ao cadastrar usuário');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -89,7 +99,7 @@ export function SignUp() {
             {errors.password && <ErrorHelperText>{errors.password.message}</ErrorHelperText>}
           </InputContainer>
 
-          <Button text='Criar conta' type='submit' />
+          <Button text='Criar conta' type='submit' loading={isLoading} />
 
           <Link to="/">Já tenho uma conta</Link>
         </Form>
